@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> منشىء نماذج المذاكرات والامتخانات  </title>
+    <title>مُنشئ نماذج الامتحانات المتقدم</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f9; color: #333; margin: 0; padding: 20px; display: flex; flex-wrap: wrap; gap: 20px; }
         #controls { width: 600px; min-width: 450px; padding: 20px; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -40,6 +40,21 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.15);
             margin: 0 auto;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        /* تذييل حقوق الملكية - خفيف جداً في أقصى اليمين */
+        .copyright-footer {
+            text-align: right;
+            font-size: 8px;
+            color: #aaa;
+            opacity: 0.35;
+            margin-top: 30px;
+            padding-top: 6px;
+            border-top: none;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            letter-spacing: 0.5px;
         }
         .header-table { width: 100%; border-collapse: collapse; font-size: 14px; font-weight: bold; }
         .header-table td { padding: 5px; vertical-align: top; }
@@ -47,7 +62,7 @@
         .header-table .center { text-align: center; }
         .header-table .left { text-align: left; }
         .decorative-line { border: 0; border-top: 2px solid #333; margin: 15px 0; }
-        #questions-preview-container { font-size: 16px; line-height: 1.8; }
+        #questions-preview-container { font-size: 16px; line-height: 1.8; flex-grow: 1; }
         .preview-q-block { margin-bottom: 20px; }
         .preview-q-block h4 { margin: 0 0 10px 0; }
         .preview-sub-q { margin-right: 20px; margin-bottom: 10px; }
@@ -116,12 +131,16 @@
 
     <div id="preview-wrapper">
         <div id="preview-paper">
-            <table class="header-table">
-                <tr><td class="right" id="header-region">مديرية التربية في حلب</td><td class="center" id="header-subject">امتحان مادة العلوم - الصف السابع</td><td class="left"><span>الاسم:</span> ..............................    </td></tr>
-                <tr><td class="right" id="header-school">مدرسة الأمل</td><td class="center" id="header-semester">الفصل الأول - 2025 - 2026</td><td class="left"><span>الشعبة:</span> ..............................    </td></tr>
-            </table>
-            <hr class="decorative-line">
-            <div id="questions-preview-container"></div>
+            <div>
+                <table class="header-table">
+                    <tr><td class="right" id="header-region">مديرية التربية في حلب</td><td class="center" id="header-subject">امتحان مادة العلوم - الصف السابع</td><td class="left"><span>الاسم:</span> ....................    </td></tr>
+                    <tr><td class="right" id="header-school">مدرسة الأمل</td><td class="center" id="header-semester">الفصل الأول - 2025 - 2026</td><td class="left"><span>الشعبة:</span> ....................      </td></tr>
+                </table>
+                <hr class="decorative-line">
+                <div id="questions-preview-container"></div>
+            </div>
+            <!-- تذييل خفيف جداً لحقوق الملكية - أسامة الكسمو -->
+             <div class="copyright-footer">usamealkesmo</div>
         </div>
     </div>
 
@@ -411,7 +430,7 @@
                                 subHTML += `<table class="preview-match-table"><thead><tr><th>العمود (أ)</th><th>العمود (ب)</th></tr></thead><tbody>`;
                                 rows.forEach(r => {
                                     const vals = r.querySelectorAll('input');
-                                    subHTML += `<tr><td>${vals[0]?.value || ''}</td><td>${vals[1]?.value || ''}</td></tr>`;
+                                    subHTML += `<tr><td>${vals[0]?.value || ''}对付<td>${vals[1]?.value || ''}对付</tr>`;
                                 });
                                 subHTML += `</tbody></table>`;
                             }
@@ -650,6 +669,7 @@
             alert('تم إنشاء نموذج جديد بأسئلة وخيارات مبعثرة!');
         }
 
+        // دالة توليد نموذج الإجابة مع تذييل حقوق الملكية
         function generateAnswerSheetHTML() {
             const headerTable = document.querySelector('.header-table');
             let headerHTML = '';
@@ -688,9 +708,9 @@
                                 bodyHTML += `<table class="preview-match-table"><thead><tr><th>العمود (أ)</th><th>العمود (ب)</th><th>الإجابة</th></tr></thead><tbody>`;
                                 rows.forEach(r => {
                                     const vals = r.querySelectorAll('input');
-                                    bodyHTML += `<tr><td>${vals[0]?.value || ''}</td><td>${vals[1]?.value || ''}</td><td><strong>${vals[2]?.value || '...'}</strong></td></tr>`;
+                                    bodyHTML += `<tr><td>${vals[0]?.value || ''}对付<td>${vals[1]?.value || ''}对付<td><strong>${vals[2]?.value || '...'}</strong></tr>`;
                                 });
-                                bodyHTML += `</tbody></table>`;
+                                bodyHTML += `</tbody></tr>`;
                             }
                             break;
                         }
@@ -698,13 +718,14 @@
                     bodyHTML += `</div>`;
                 });
             });
-            return `<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><style>body {font-family:'Segoe UI',Tahoma,sans-serif; padding:2cm; direction:rtl; width:210mm; background:white;} .header-table {width:100%; border-collapse:collapse; font-size:14px; font-weight:bold;} .header-table td {padding:5px; vertical-align:top;} .header-table .right {text-align:right;} .header-table .center {text-align:center;} .header-table .left {text-align:left;} .decorative-line {border:0; border-top:2px solid #333; margin:15px 0;} .preview-q-block {margin-bottom:20px;} .preview-sub-q {margin-right:20px; margin-bottom:10px;} .preview-match-table {width:auto; border-collapse:collapse; margin-top:5px;} .preview-match-table th,.preview-match-table td {border:1px solid #ccc; padding:3px 6px;} .answer-key {font-weight:bold; color:#155724;} .answer-text {font-weight:bold; color:#155724;}</style></head><body>${headerHTML}<hr class="decorative-line">${bodyHTML}</body></html>`;
+            // إضافة تذييل حقوق الملكية كما في صفحة الأسئلة
+            const footerHTML = `<div class="copyright-footer" style="text-align: right; font-size: 8px; color: #aaa; opacity: 0.35; margin-top: 30px; padding-top: 5px;">أسامة الكسمو</div>`;
+            return `<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><style>body {font-family:'Segoe UI',Tahoma,sans-serif; padding:2cm; direction:rtl; width:210mm; background:white; margin:0 auto;} .header-table {width:100%; border-collapse:collapse; font-size:14px; font-weight:bold;} .header-table td {padding:5px; vertical-align:top;} .header-table .right {text-align:right;} .header-table .center {text-align:center;} .header-table .left {text-align:left;} .decorative-line {border:0; border-top:2px solid #333; margin:15px 0;} .preview-q-block {margin-bottom:20px;} .preview-sub-q {margin-right:20px; margin-bottom:10px;} .preview-match-table {width:auto; border-collapse:collapse; margin-top:5px;} .preview-match-table th,.preview-match-table td {border:1px solid #ccc; padding:3px 6px;} .answer-key {font-weight:bold; color:#155724;} .answer-text {font-weight:bold; color:#155724;} .copyright-footer {text-align: right; font-size: 8px; color: #aaa; opacity: 0.35; margin-top: 30px;}</style></head><body>${headerHTML}<hr class="decorative-line">${bodyHTML}${footerHTML}</body></html>`;
         }
 
         // تصدير PDF للأسئلة مع تحسين الهوامش
         document.getElementById('export-pdf').addEventListener('click', function () {
             const element = document.getElementById('preview-paper');
-            // حفظ الإعدادات الأصلية
             const origPadding = element.style.padding;
             const orig = {
                 width: element.style.width,
@@ -715,7 +736,6 @@
                 boxSizing: element.style.boxSizing,
                 padding: element.style.padding
             };
-            // إزالة الـ padding المؤقت لتجنب الهوامش المزدوجة
             element.style.padding = '0';
             element.style.width = '210mm';
             element.style.minHeight = 'auto';
@@ -725,7 +745,7 @@
             element.style.boxSizing = 'border-box';
             
             const opt = {
-                margin: [8, 8, 8, 8],  // هوامش متساوية وصغيرة
+                margin: [8, 8, 8, 8],
                 filename: 'ورقة_امتحان.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true, logging: false, width: element.scrollWidth, height: element.scrollHeight, scrollY: 0 },
